@@ -88,7 +88,7 @@ async function fetchJobs() {
     const filtered = data.filter(job =>
       selectedStatuses.includes(job.status) &&
       (job.company.toLowerCase().includes(query) ||
-       job.role.toLowerCase().includes(query))
+        job.role.toLowerCase().includes(query))
     );
 
     renderJobs(filtered);
@@ -161,5 +161,40 @@ logoutBtn.addEventListener("click", () => {
   window.location.href = "index.html";
 });
 
-fetchJobs();
+/* ✅ DELETE BUTTON WORKING */
+jobsGrid.addEventListener("click", async (e) => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
 
+  const action = btn.getAttribute("data-action");
+  const jobId = btn.getAttribute("data-id");
+
+  if (action !== "delete") return;
+
+  const confirmDel = confirm("Delete this application?");
+  if (!confirmDel) return;
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/jobs/delete/${jobId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setDashMsg(data.error || "Delete failed");
+      return;
+    }
+
+    setDashMsg("Deleted successfully", false);
+    fetchJobs();
+
+  } catch (err) {
+    setDashMsg("Backend not reachable");
+  }
+});
+
+fetchJobs();
