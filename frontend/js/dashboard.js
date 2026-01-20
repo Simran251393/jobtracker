@@ -11,33 +11,7 @@ const logoutBtn = document.getElementById("logoutBtn");
 
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
-
 const clearFiltersBtn = document.getElementById("clearFiltersBtn");
-
-/* ✅ NAVBAR FIX: make links work + set active tab */
-(function setupNavbar() {
-  const nav = document.querySelector(".navlinks");
-  if (!nav) return;
-
-  // Make sure links are correct
-  nav.innerHTML = `
-    <a href="dashboard.html">My Jobs</a>
-    <a href="stats.html">Stats</a>
-    <a href="resume.html">Resume</a>
-    <a href="about.html">About</a>
-  `;
-
-  // Set active based on current page
-  const currentPage = window.location.pathname.split("/").pop() || "dashboard.html";
-  const links = nav.querySelectorAll("a");
-
-  links.forEach(a => {
-    const href = a.getAttribute("href");
-    if (href === currentPage) {
-      a.classList.add("active");
-    }
-  });
-})();
 
 function setDashMsg(text, isError = true) {
   dashMsg.style.color = isError ? "#ef4444" : "#10b981";
@@ -47,7 +21,7 @@ function setDashMsg(text, isError = true) {
 function getSelectedStatuses() {
   const checks = document.querySelectorAll(".statusFilter");
   const selected = [];
-  checks.forEach((c) => {
+  checks.forEach(c => {
     if (c.checked) selected.push(c.value);
   });
   return selected;
@@ -57,11 +31,11 @@ function renderJobs(jobs) {
   jobsGrid.innerHTML = "";
 
   if (jobs.length === 0) {
-    jobsGrid.innerHTML = `<p style="color:#6b7280;">No applications found.</p>`;
+    jobsGrid.innerHTML = "<p style='color:#6b7280;'>No applications found.</p>";
     return;
   }
 
-  jobs.forEach((job) => {
+  jobs.forEach(job => {
     const card = document.createElement("div");
     card.className = "job-card";
 
@@ -75,12 +49,11 @@ function renderJobs(jobs) {
       </div>
 
       <div class="job-sub">
-        <b>Applied:</b> ${job.applied_date || "—"} <br/>
-        <b>Notes:</b> ${job.notes || "—"}
+        <b>Applied:</b> ${job.applied_date || "-"}<br/>
+        <b>Notes:</b> ${job.notes || "-"}
       </div>
 
       <div class="job-meta">
-        <button class="smallbtn" data-id="${job.id}" data-action="update">Update</button>
         <button class="smallbtn" data-id="${job.id}" data-action="delete">Delete</button>
       </div>
     `;
@@ -98,8 +71,8 @@ async function fetchJobs() {
   try {
     const res = await fetch(`${BASE_URL}/api/jobs/my`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     });
 
     const data = await res.json();
@@ -109,20 +82,19 @@ async function fetchJobs() {
       return;
     }
 
-    // Search + filter on frontend
-    const query = searchInput.value.trim().toLowerCase();
+    const query = searchInput.value.toLowerCase();
     const selectedStatuses = getSelectedStatuses();
 
-    const filtered = data.filter(
-      (j) =>
-        selectedStatuses.includes(j.status) &&
-        (j.company.toLowerCase().includes(query) ||
-          j.role.toLowerCase().includes(query))
+    const filtered = data.filter(job =>
+      selectedStatuses.includes(job.status) &&
+      (job.company.toLowerCase().includes(query) ||
+       job.role.toLowerCase().includes(query))
     );
 
     renderJobs(filtered);
+
   } catch (err) {
-    setDashMsg("Backend not reachable. Is Flask running?");
+    setDashMsg("Backend not reachable");
   }
 }
 
@@ -142,4 +114,52 @@ addJobBtn.addEventListener("click", async () => {
     const res = await fetch(`${BASE_URL}/api/jobs/add`, {
       method: "POST",
       headers: {
-        "Con
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        company,
+        role,
+        status,
+        applied_date,
+        notes
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setDashMsg(data.error || "Add failed");
+      return;
+    }
+
+    setDashMsg("Job added successfully", false);
+
+    document.getElementById("company").value = "";
+    document.getElementById("role").value = "";
+    document.getElementById("applied_date").value = "";
+    document.getElementById("notes").value = "";
+
+    fetchJobs();
+
+  } catch (err) {
+    setDashMsg("Backend not reachable");
+  }
+});
+
+refreshBtn.addEventListener("click", fetchJobs);
+searchBtn.addEventListener("click", fetchJobs);
+searchInput.addEventListener("input", fetchJobs);
+
+clearFiltersBtn.addEventListener("click", () => {
+  document.querySelectorAll(".statusFilter").forEach(c => c.checked = true);
+  fetchJobs();
+});
+
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("token");
+  window.location.href = "index.html";
+});
+
+fetchJobs();
+
