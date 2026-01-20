@@ -1,79 +1,81 @@
 const BASE_URL = "https://jobtracker-95g2.onrender.com";
 
-
-const loginForm = document.getElementById("loginForm");
 const msg = document.getElementById("authMsg");
-const demoSignup = document.getElementById("demoSignup");
 
-function setMsg(text, isError=true){
+function setMsg(text, isError = true) {
+  if (!msg) return;
   msg.style.color = isError ? "#ef4444" : "#10b981";
   msg.innerText = text;
 }
 
-demoSignup.addEventListener("click", async (e) => {
-  e.preventDefault();
+/* ✅ LOGIN */
+const loginForm = document.getElementById("loginForm");
+if (loginForm) {
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  // demo signup data (you can change)
-  const payload = {
-    name: "Riya",
-    email: "riya@gmail.com",
-    password: "123456"
-  };
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-  try{
-    const res = await fetch(`${BASE_URL}/api/signup`, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(payload)
-    });
+    try {
+      const res = await fetch(`${BASE_URL}/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if(!res.ok){
-      setMsg(data.error || "Signup failed");
-      return;
+      if (!res.ok) {
+        setMsg(data.error || "Login failed");
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      setMsg("Login successful", false);
+
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 500);
+
+    } catch (err) {
+      setMsg("Backend not reachable");
     }
+  });
+}
 
-    setMsg("Signup done ✅ Now login using same email & password", false);
+/* ✅ SIGNUP */
+const signupForm = document.getElementById("signupForm");
+if (signupForm) {
+  signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  }catch(err){
-    setMsg("Backend not reachable. Is Flask running?");
-  }
-});
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+    try {
+      const res = await fetch(`${BASE_URL}/api/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
 
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+      const data = await res.json();
 
-  if(!email || !password){
-    setMsg("Enter email and password");
-    return;
-  }
+      if (!res.ok) {
+        setMsg(data.error || "Signup failed");
+        return;
+      }
 
-  try{
-    const res = await fetch(`${BASE_URL}/api/login`, {
-      method:"POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({email, password})
-    });
+      setMsg("Account created. Now login.", false);
 
-    const data = await res.json();
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 800);
 
-    if(!res.ok){
-      setMsg(data.error || "Login failed");
-      return;
+    } catch (err) {
+      setMsg("Backend not reachable");
     }
-
-    localStorage.setItem("token", data.token);
-    setMsg("Login successful ✅ Redirecting...", false);
-
-    setTimeout(() => {
-      window.location.href = "dashboard.html";
-    }, 600);
-
-  }catch(err){
-    setMsg("Backend not reachable. Start backend using py app.py");
-  }
-});
+  });
+}
