@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JobTracker | About</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+
+<body class="dash-body">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <span class="brand-name">JobTracker</span>
+    </div>
+
+    <nav class="navlinks">
+      <a href="dashboard.html">My Jobs</a>
+      <a href="stats.html">Stats</a>
+      <a href="resume.html">Resume</a>
+      <a class="active" href="about.html">About</a>
+    </nav>
+
+    <div class="topbar-right">
+      <button class="btn-ghost" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h2>About JobTracker 💼</h2>
+    <p style="color:#cbd5e1; margin-top:6px;">
+      A clean job application tracker built with Flask + HTML/CSS/JS.
+    </p>
+  </section>
+
+  <main style="padding:18px 22px;">
+    <div class="card">
+      <h3 style="margin-bottom:10px;">What you can do</h3>
+      <p style="color:#6b7280; line-height:1.6;">
+        ✅ Track applications <br/>
+        ✅ Update status (Applied → Interview → Offer → Rejected) <br/>
+        ✅ Store notes for each job <br/>
+        ✅ View stats for your pipeline <br/>
+        ✅ Upload resume (coming next) <br/>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    function logout(){
+      localStorage.removeItem("token");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

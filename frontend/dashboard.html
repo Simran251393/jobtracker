@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JobTracker | Dashboard</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+
+<body class="dash-body">
+  <!-- Top Nav -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <span class="brand-name">JobTracker</span>
+    </div>
+
+    <!-- ✅ FIXED NAVBAR LINKS -->
+    <nav class="navlinks">
+      <a class="active" href="dashboard.html">My Jobs</a>
+      <a href="stats.html">Stats</a>
+      <a href="resume.html">Resume</a>
+      <a href="about.html">About</a>
+    </nav>
+
+    <div class="topbar-right">
+      <button class="btn-ghost" id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <!-- Hero Search -->
+  <section class="hero">
+    <h2>Track Your Job Applications ✨</h2>
+
+    <div class="searchbar">
+      <input id="searchInput" type="text" placeholder="Search by role / company..." />
+      <button class="btn-primary" id="searchBtn">Search</button>
+    </div>
+  </section>
+
+  <!-- Main layout -->
+  <main class="layout">
+    <!-- Left Filters -->
+    <aside class="sidebar">
+      <h3>Filters</h3>
+
+      <div class="filter-block">
+        <p class="filter-title">Status</p>
+        <label class="checkrow"><input type="checkbox" class="statusFilter" value="Applied" checked> Applied</label>
+        <label class="checkrow"><input type="checkbox" class="statusFilter" value="Interview" checked> Interview</label>
+        <label class="checkrow"><input type="checkbox" class="statusFilter" value="Offer" checked> Offer</label>
+        <label class="checkrow"><input type="checkbox" class="statusFilter" value="Rejected" checked> Rejected</label>
+      </div>
+
+      <button class="btn-ghost full" id="clearFiltersBtn">Clear</button>
+    </aside>
+
+    <!-- Content -->
+    <section class="content">
+      <!-- Add Job Form -->
+      <div class="card form-card">
+        <h3>Add New Application</h3>
+
+        <div class="form-grid">
+          <div>
+            <label>Company</label>
+            <input id="company" type="text" placeholder="e.g. Google" />
+          </div>
+
+          <div>
+            <label>Role</label>
+            <input id="role" type="text" placeholder="e.g. Frontend Intern" />
+          </div>
+
+          <div>
+            <label>Status</label>
+            <select id="status">
+              <option>Applied</option>
+              <option>Interview</option>
+              <option>Offer</option>
+              <option>Rejected</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Applied Date</label>
+            <input id="applied_date" type="text" placeholder="YYYY-MM-DD" />
+          </div>
+
+          <div class="full-row">
+            <label>Notes</label>
+            <input id="notes" type="text" placeholder="Optional notes..." />
+          </div>
+        </div>
+
+        <button class="btn-primary" id="addJobBtn">Add</button>
+        <p id="dashMsg" class="msg"></p>
+      </div>
+
+      <!-- Jobs Grid -->
+      <div class="section-head">
+        <h3>My Applications</h3>
+        <button class="btn-ghost" id="refreshBtn">Refresh</button>
+      </div>
+
+      <div id="jobsGrid" class="grid"></div>
+    </section>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

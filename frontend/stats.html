@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JobTracker | Stats</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+
+<body class="dash-body">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <span class="brand-name">JobTracker</span>
+    </div>
+
+    <nav class="navlinks">
+      <a href="dashboard.html">My Jobs</a>
+      <a class="active" href="stats.html">Stats</a>
+      <a href="resume.html">Resume</a>
+      <a href="about.html">About</a>
+    </nav>
+
+    <div class="topbar-right">
+      <button class="btn-ghost" id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h2>Application Stats 📊</h2>
+    <p style="color:#cbd5e1; margin-top:6px;">
+      Quick overview of your job pipeline.
+    </p>
+  </section>
+
+  <main style="padding:18px 22px;">
+    <div class="grid" style="grid-template-columns: repeat(4, minmax(0, 1fr));">
+      <div class="job-card">
+        <div class="job-title">Applied</div>
+        <div class="job-sub">Total applications</div>
+        <h2 id="appliedCount" style="margin-top:12px;">0</h2>
+      </div>
+
+      <div class="job-card">
+        <div class="job-title">Interview</div>
+        <div class="job-sub">In progress</div>
+        <h2 id="interviewCount" style="margin-top:12px;">0</h2>
+      </div>
+
+      <div class="job-card">
+        <div class="job-title">Offer</div>
+        <div class="job-sub">Success</div>
+        <h2 id="offerCount" style="margin-top:12px;">0</h2>
+      </div>
+
+      <div class="job-card">
+        <div class="job-title">Rejected</div>
+        <div class="job-sub">Closed</div>
+        <h2 id="rejectedCount" style="margin-top:12px;">0</h2>
+      </div>
+    </div>
+
+    <p id="statsMsg" class="msg" style="margin-top:12px;"></p>
+  </main>
+
+  <script src="js/stats.js"></script>
+</body>
+</html>

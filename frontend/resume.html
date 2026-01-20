@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JobTracker | Resume</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+
+<body class="dash-body">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <span class="brand-name">JobTracker</span>
+    </div>
+
+    <nav class="navlinks">
+      <a href="dashboard.html">My Jobs</a>
+      <a href="stats.html">Stats</a>
+      <a class="active" href="resume.html">Resume</a>
+      <a href="about.html">About</a>
+    </nav>
+
+    <div class="topbar-right">
+      <button class="btn-ghost" id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h2>Resume Manager 📄</h2>
+    <p style="color:#cbd5e1; margin-top:6px;">Upload and view your resume anytime.</p>
+  </section>
+
+  <main style="padding:18px 22px;">
+    <div class="card">
+      <h3>Upload Resume (PDF)</h3>
+
+      <input id="resumeFile" type="file" accept="application/pdf" style="margin-top:12px;" />
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn-primary" id="uploadBtn">Upload</button>
+        <button class="btn-ghost full" id="viewBtn">View Resume</button>
+      </div>
+
+      <p id="resumeMsg" class="msg"></p>
+    </div>
+  </main>
+
+  <script src="js/resume.js"></script>
+</body>
+</html>

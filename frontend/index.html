@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JobTracker | Login</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body class="auth-body">
+
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="logo-dot"></div>
+      <h1>JobTracker</h1>
+    </div>
+
+    <p class="auth-subtitle">Login to manage your job applications</p>
+
+    <form id="loginForm" class="auth-form">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="you@example.com" required />
+
+      <label>Password</label>
+      <input type="password" id="password" placeholder="••••••••" required />
+
+      <button type="submit" class="btn-primary">Login</button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Don’t have an account?</p>
+      <a href="#" id="demoSignup">Create one (demo)</a>
+    </div>
+
+    <p id="authMsg" class="msg"></p>
+  </div>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>
